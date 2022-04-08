@@ -3,14 +3,14 @@
 select 
 	FullName, PhoneNumber, EmailAddress
 from
-	[Application].[People]
+	[WideWorldImporters].[Application].[People]
 
 --Ex.2
 select 
 	CountryName,
 	Continent
 from
-	[Application].[Countries]
+	[WideWorldImporters].[Application].[Countries]
 where 
 	Continent='Europe'
 
@@ -19,7 +19,7 @@ where
 select 
 	*
 from
-	[Sales].[OrderLines]
+	[WideWorldImporters].[Sales].[OrderLines]
 where
 	Quantity>=100
 
@@ -28,7 +28,7 @@ where
 select 
 	*
 from
-	[Application].[PaymentMethods]
+	[WideWorldImporters].[Application].[PaymentMethods]
 where
 	PaymentMethodName <> 'Check'
 
@@ -39,7 +39,7 @@ where
 select 
 	*
 from
-	[Application].[People]
+	[WideWorldImporters].[Application].[People]
 where
 	FullName like 'a%'
 
@@ -47,7 +47,7 @@ where
 select
 	*
 from
-	[Sales].[Orders]
+	[WideWorldImporters].[Sales].[Orders]
 where
 	OrderDate > '2016-01-01'
 
@@ -56,7 +56,7 @@ where
 select
 	*
 from
-	[Sales].[Invoices]
+	[WideWorldImporters].[Sales].[Invoices]
 where
 	TotalDryItems=1 or TotalDryItems=3
 
@@ -64,7 +64,7 @@ where
 select 
 	*
 from
-	[Application].[Cities]
+	[WideWorldImporters].[Application].[Cities]
 where
 	CityName like '__a%'
 
@@ -73,7 +73,7 @@ where
 select 
 	*
 from
-	[Application].[Cities]
+	[WideWorldImporters].[Application].[Cities]
 where
 	LatestRecordedPopulation is not null
 
@@ -83,13 +83,13 @@ select
 	IsoNumericCode as IsoCode,
 	LatestRecordedPopulation as [Population]
 from
-	[Application].[Countries]
+	[WideWorldImporters].[Application].[Countries]
 
 --Ex.3
 select 
 	* 
 from 
-	[Application].[People]
+	[WideWorldImporters].[Application].[People]
 where
 	IsEmployee=1 and IsSalesperson=1
 
@@ -97,7 +97,7 @@ where
 select
 	*
 from
-	[Sales].[OrderLines]
+	[WideWorldImporters].[Sales].[OrderLines]
 where
 	Quantity < 50 or UnitPrice < 20
 
@@ -105,7 +105,7 @@ where
 select top 10
 	*
 from 
-	[Application].[Countries]
+	[WideWorldImporters].[Application].[Countries]
 where
 	CountryName like 'c%'
 
@@ -115,7 +115,7 @@ where
 select 
 	*
 from
-	[Sales].[OrderLines]
+	[WideWorldImporters].[Sales].[OrderLines]
 order by
 	Quantity
 
@@ -123,7 +123,7 @@ order by
 select
 	*
 from
-	[Sales].[Orders]
+	[WideWorldImporters].[Sales].[Orders]
 order by 
 	ExpectedDeliveryDate desc
 
@@ -131,7 +131,7 @@ order by
 select
 	avg(TaxAmount) as [Average tax amount]
 from
-	[Purchasing].[SupplierTransactions]
+	[WideWorldImporters].[Purchasing].[SupplierTransactions]
 where
 	TaxAmount>0
 
@@ -139,7 +139,7 @@ where
 select
 	sum(TransactionAmount) as [Total amount of the translation amount]
 from
-	[Purchasing].[SupplierTransactions]
+	[WideWorldImporters].[Purchasing].[SupplierTransactions]
 where
 	SupplierInvoiceNumber is not null
 
@@ -150,13 +150,13 @@ select
 	COUNT(InvoiceID) as [Invoices],
 	TotalDryItems
 from
-	[Sales].[Invoices]
+	[WideWorldImporters].[Sales].[Invoices]
 group by
 	TotalDryItems
 order by
 	TotalDryItems
 
-	select * from [Sales].[Invoices]
+	select * from [WideWorldImporters].[Sales].[Invoices]
 
 
 --Ex.2
@@ -164,7 +164,7 @@ select
 	BinLocation,
 	sum(LastCostPrice) as [Total cost price]
 from
-	[Warehouse].[StockItemHoldings]
+	[WideWorldImporters].[Warehouse].[StockItemHoldings]
 group by
 	BinLocation
 order by
@@ -174,7 +174,7 @@ select
 	count(PurchaseOrderID) as [Total amount of orders],
 	DeliveryMethodID 
 from 
-	[Purchasing].[PurchaseOrders]
+	[WideWorldImporters].[Purchasing].[PurchaseOrders]
 group by
 	DeliveryMethodID
 having
@@ -185,7 +185,7 @@ select
 	PackageTypeID,
 	sum(ExpectedUnitPricePerOuter) as [Total expected unit price]
 from
-	[Purchasing].[PurchaseOrderLines]
+	[WideWorldImporters].[Purchasing].[PurchaseOrderLines]
 group by
 	PackageTypeId
 having
@@ -195,12 +195,12 @@ having
 select 
 	*,
 	case
-		when LatestRecordedPopulation<50000 then '<50000'
+		when LatestRecordedPopulation<50000 or LatestRecordedPopulation is null then '<50000'
 		when LatestRecordedPopulation between 50000 and 100000 then '50000-100000'
 		else '>100000'
 	end as [Population size category]
 from 
-	[Application].[Cities]
+	[WideWorldImporters].[Application].[Cities]
 
 
 --Assignments - Joins
@@ -209,9 +209,9 @@ select
 	O.*,
 	OL.*
 from
-	[Sales].[Orders] as O
+	[WideWorldImporters].[Sales].[Orders] as O
 left join 
-	[Sales].[OrderLines] as OL
+	[WideWorldImporters].[Sales].[OrderLines] as OL
 on 
 	O.OrderID=OL.OrderID
 where
@@ -222,9 +222,9 @@ select
 	P.FullName,
 	O.*
 from
-	[Sales].[Orders] as O
+	[WideWorldImporters].[Sales].[Orders] as O
 left join 
-	[Application].[People] as P
+	[WideWorldImporters].[Application].[People] as P
 on
 	O.PickedByPersonID=P.PersonID
 
@@ -233,9 +233,9 @@ select
 	P.FullName,
 	O.*
 from
-	[Sales].[Orders] as O
+	[WideWorldImporters].[Sales].[Orders] as O
 left join 
-	[Application].[People] as P
+	[WideWorldImporters].[Application].[People] as P
 on
 	O.PickedByPersonID=P.PersonID
 where
@@ -248,13 +248,13 @@ select
 	I.DeliveryMethodID,
 	D.DeliveryMethodID
 from
-	[Sales].[Orders] as O
+	[WideWorldImporters].[Sales].[Orders] as O
 left outer join 
-	[Sales].[Invoices] as I
+	[WideWorldImporters].[Sales].[Invoices] as I
 on
 	O.OrderID=I.OrderID
 left outer join
-	[Application].[DeliveryMethods] as D
+	[WideWorldImporters].[Application].[DeliveryMethods] as D
 on
 	I.DeliveryMethodID=D.DeliveryMethodID
 where
@@ -264,16 +264,16 @@ where
 select 
 * 
 from 
-	[Purchasing].[PurchaseOrders] as PO
+	[WideWorldImporters].[Purchasing].[PurchaseOrders] as PO
 JOIN 
-	[Purchasing].[PurchaseOrderLines] as POL 
+	[WideWorldImporters].[Purchasing].[PurchaseOrderLines] as POL 
 on 
 	PO.PurchaseOrderID = POL.PurchaseOrderID
 JOIN 
-	[Purchasing].[Suppliers] as S 
+	[WideWorldImporters].[Purchasing].[Suppliers] as S 
 on 
 	S.SupplierID = PO.SupplierID
 join
-	[Warehouse].[PackageTypes] as PT
+	[WideWorldImporters].[Warehouse].[PackageTypes] as PT
 on
 	PT.LastEditedBy=PO.LastEditedBy and Pt.PackageTypeName='Pallet'
