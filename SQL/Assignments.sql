@@ -58,7 +58,7 @@ select
 from
 	[WideWorldImporters].[Sales].[Invoices]
 where
-	TotalDryItems=1 or TotalDryItems=3
+	TotalDryItems in (1,3)
 
 --Ex.4
 select 
@@ -223,10 +223,11 @@ select
 	O.*
 from
 	[WideWorldImporters].[Sales].[Orders] as O
-left join 
+ join 
 	[WideWorldImporters].[Application].[People] as P
 on
 	O.PickedByPersonID=P.PersonID
+
 
 --Ex.2 versiunea fara null
 select 
@@ -241,6 +242,18 @@ on
 where
 	P.FullName is not null
 
+	select 
+	P.FullName,
+	O.*
+from
+	[WideWorldImporters].[Sales].[Orders] as O
+ join 
+	[WideWorldImporters].[Application].[People] as P
+on
+	O.PickedByPersonID=P.PersonID
+where
+	P.FullName is not null
+
 --Ex.3
 select 
 	I.OrderID,
@@ -249,11 +262,11 @@ select
 	D.DeliveryMethodID
 from
 	[WideWorldImporters].[Sales].[Orders] as O
-left outer join 
+ join 
 	[WideWorldImporters].[Sales].[Invoices] as I
 on
 	O.OrderID=I.OrderID
-left outer join
+ join
 	[WideWorldImporters].[Application].[DeliveryMethods] as D
 on
 	I.DeliveryMethodID=D.DeliveryMethodID
@@ -266,14 +279,10 @@ select
 from 
 	[WideWorldImporters].[Purchasing].[PurchaseOrders] as PO
 JOIN 
-	[WideWorldImporters].[Purchasing].[PurchaseOrderLines] as POL 
-on 
-	PO.PurchaseOrderID = POL.PurchaseOrderID
+	[WideWorldImporters].[Purchasing].[PurchaseOrderLines] as POL on PO.PurchaseOrderID = POL.PurchaseOrderID
 JOIN 
-	[WideWorldImporters].[Purchasing].[Suppliers] as S 
-on 
-	S.SupplierID = PO.SupplierID
-join
-	[WideWorldImporters].[Warehouse].[PackageTypes] as PT
-on
-	PT.LastEditedBy=PO.LastEditedBy and Pt.PackageTypeName='Pallet'
+	[WideWorldImporters].[Purchasing].[Suppliers] as S on S.SupplierID = PO.SupplierID
+JOIN
+	[WideWorldImporters].[Warehouse].[PackageTypes] as PT on PT.LastEditedBy=PO.LastEditedBy 
+where 
+	Pt.PackageTypeName='Pallet'
