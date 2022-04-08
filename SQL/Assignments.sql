@@ -200,7 +200,7 @@ select
 		else '>100000'
 	end as [Population size category]
 from 
-	[Application].[Countries]
+	[Application].[Cities]
 
 
 --Assignments - Joins
